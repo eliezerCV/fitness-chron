@@ -14,8 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     var form = document.querySelector("#form_config");
     var btnCloseModal = document.querySelector("#btnCloseModal");
     var btnSaveConf = document.querySelector("#btn_save");
+    var popupFeed = document.querySelector("#popup_feed");
+    var btnClosePopup = document.querySelector("#btn_close_popup");
+    var loaderSpinner = document.querySelector("#loader_spinner");
+    
     var beepsQuantitySelect = document.querySelector("#beeps_quantity");
-
     var timePerExerciseInput = document.querySelector("#timePerExercise");
     var timePerBreakInput = document.querySelector("#timePerBreak");
 
@@ -23,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     timePerExerciseInput.addEventListener('focus', (e) => e.target.select())
     timePerBreakInput.addEventListener('focus', (e) => e.target.select())
     
+    btnClosePopup.addEventListener("click", closePopup);
     timerStartBtn.addEventListener("click", startTimer);
     mask.addEventListener('click', closeConfModal);
     btnModal.addEventListener('click', showConfModal);
@@ -74,13 +78,24 @@ document.addEventListener('DOMContentLoaded', () => {
         conf.timePerBreak = timePerBreakInput.value;
         conf.beepsQuantity = beepsQuantitySelect.value;
         localStorage.setItem('conf_fitness', JSON.stringify(conf));
+        closeConfModal();
+        popupFeed.classList.add("show-popup");
+        setTimeout(() => {
+            popupFeed.classList.remove("show-popup");
+        }, 3000);
     }
 
     function getConfFromLocal() {
         if (localStorage.getItem('conf_fitness')) {
             conf = JSON.parse(localStorage.getItem('conf_fitness'))
-            console.log("loaded data", conf)
         }
+        timePerBreakInput.value = conf.timePerBreak;
+        timePerExerciseInput.value = conf.timePerExercise;
+        beepsQuantitySelect.value = conf.beepsQuantity;     
+        setTimeout(() => {
+            mask.classList.remove('show-mask');
+            loaderSpinner.style.display = "none";
+        }, 2000);
     }
 
 ///**Comentario de prueba para integrar con rama prod en remoto */
@@ -120,6 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeConfModal() {
         mask.classList.remove('show-mask');
         form.classList.remove('show-modal-conf')
+    }
+
+    function closePopup() {
+        popupFeed.classList.remove("show-popup");
     }
 
     getConfFromLocal();

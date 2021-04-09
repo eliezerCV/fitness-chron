@@ -1,16 +1,14 @@
-:root {
-    --dark: #17223b;
-    --dark-mid: #263859;
-    --gray: #6b778d;
-    --primary: #ff6768;   
-}
+@import "./popup.css";
+@import "./loader.css";
+@import "./vars.css";
+
+
 body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--dark);
 }
-
 .main {
     width: 50%;
     margin: 0 auto;
@@ -165,7 +163,6 @@ body {
         width: 90%;
         /* top: 0; */
     }
-
 }
 @media(max-width: 600px) {
 }
